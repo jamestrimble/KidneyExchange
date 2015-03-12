@@ -8,8 +8,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
@@ -140,6 +142,64 @@ public class Pool extends DefaultDirectedWeightedGraph<Vertex, Edge> {
 		return subPool;
 	}
 	
+	
+	public void writeToWmdFile(String baseFileName) {
+		try {
+			PrintWriter writer = new PrintWriter(baseFileName + ".input", "UTF-8");
+
+			// Legacy code requires vertices in sorted order by ID
+			List<Vertex> allVertsSorted = new ArrayList<Vertex>(this.vertexSet());
+			Collections.sort(allVertsSorted);
+			
+			Map<Integer, Integer> vertexRenumbering = getVertexRenumbering(allVertsSorted);
+
+			// <num-vertices> <num-edges>
+			writer.println(this.vertexSet().size() + "," + this.edgeSet().size());
+			// <src-vert> <sink-vert> <edge-weight> <is-dummy> <failure-prob> 
+
+			for(Vertex src : allVertsSorted) {
+				writer.println(
+						(vertexRenumbering.get(src.getID()) + 1) +
+						"," +
+						(src.isAltruist()?"Altruist ":"Pair ") +
+						src.getID());
+			}
+			
+			for(Vertex src : allVertsSorted) {
+				for(Edge e : this.outgoingEdgesOf(src)) {
+
+					Vertex dst = this.getEdgeTarget(e);
+					double weight = this.getEdgeWeight(e);
+					int isDummy = dst.isAltruist() ? 1 : 0;
+					double failureProb = e.getFailureProbability();
+					if (isDummy == 0) {
+						writer.println(vertexRenumbering.get(src.getID()) + "," +
+								vertexRenumbering.get(dst.getID()) + "," +
+								weight + "," +
+								isDummy + "," +
+								failureProb);
+					}
+				}
+			}
+			writer.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	private Map<Integer, Integer> getVertexRenumbering(List<Vertex> allVertsSorted) {
+		Map<Integer, Integer> renumbering = new TreeMap<Integer, Integer>();
+		for(int i=0; i<allVertsSorted.size(); i++) {
+			Vertex v = allVertsSorted.get(i);
+			renumbering.put(v.getID(), i);
+		}
+		return renumbering;
+	}
+
 	/**
 	 * Outputs this graph to files that can be read by the current UNOS solver
 	 * This should *NOT* be used in UNOS production, since we gloss over a couple of

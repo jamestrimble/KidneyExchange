@@ -1,6 +1,8 @@
 # Kidney Exchange #
 *.csv
 *.input
+/instances
+/results
 
 # Java and Eclipse #
 *.jar
@@ -21,3 +23,4 @@
 # Exceptions #
 !lib/*
 lib/cplex.jar  # do not include CPLEX (licensing? who knows)
+lib/gurobi.jar
