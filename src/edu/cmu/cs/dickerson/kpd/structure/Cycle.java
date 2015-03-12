@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+import org.jgrapht.graph.DefaultWeightedEdge;
+
 public class Cycle {
 
 	private List<Edge> edges;

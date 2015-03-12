@@ -107,7 +107,7 @@ public class CycleGenerator {
 			if(usingFailureProbabilities) {
 				pathWeight *= pathSuccProb;
 			}
-			
+			showPath(path, pathWeight);
 			cycles.add( Cycle.makeCycle(path, pathWeight));
 		} else {
 
@@ -166,6 +166,7 @@ public class CycleGenerator {
 				else {
 					path.push(nextE);
 					if(!usingFailureProbabilities) {
+						showPath(path, rawPathWeight + pool.getEdgeWeight(nextE));
 						cycles.add( Cycle.makeCycle(path, rawPathWeight + pool.getEdgeWeight(nextE)) );
 					} else {
 						
@@ -177,6 +178,7 @@ public class CycleGenerator {
 						
 						// We assume the dummy edge is infallible, but it might be nonzero weight, so add that
 						// Also add the probability of the chain executing in its entirety (sum of weights * product of success probs)
+						showPath(path, discountedPathWeight + (rawPathWeight * pathSuccProb) + pool.getEdgeWeight(nextE));
 						cycles.add( Cycle.makeCycle(path, discountedPathWeight + (rawPathWeight * pathSuccProb) + pool.getEdgeWeight(nextE)) );
 					}
 					path.pop();
@@ -211,5 +213,20 @@ public class CycleGenerator {
 		inPath.remove(lastV);
 	
 	
+	}
+	
+	private void showPath(Deque<Edge> path, double weight) {
+//		System.out.print(weight + "   ");
+//		for (Edge e : path) {
+//			System.out.print(
+//					"[" +
+//					(pool.getEdgeSource(e).isAltruist() ? "A" : "") +
+//					pool.getEdgeSource(e).getID() +
+//					"," +
+//					(pool.getEdgeTarget(e).isAltruist() ? "A" : "") +
+//					pool.getEdgeTarget(e).getID() +
+//					"] ");
+//		}
+//		System.out.println();
 	}
 }

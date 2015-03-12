@@ -145,7 +145,7 @@ public class Pool extends DefaultDirectedWeightedGraph<Vertex, Edge> {
 	
 	public void writeToWmdFile(String baseFileName) {
 		try {
-			PrintWriter writer = new PrintWriter(baseFileName + ".input", "UTF-8");
+			PrintWriter writer = new PrintWriter(baseFileName + ".wmd", "UTF-8");
 
 			// Legacy code requires vertices in sorted order by ID
 			List<Vertex> allVertsSorted = new ArrayList<Vertex>(this.vertexSet());
@@ -153,8 +153,13 @@ public class Pool extends DefaultDirectedWeightedGraph<Vertex, Edge> {
 			
 			Map<Integer, Integer> vertexRenumbering = getVertexRenumbering(allVertsSorted);
 
+			int edgeCount = 0;
+			for(Vertex src : allVertsSorted)
+				for(Edge e : this.outgoingEdgesOf(src))
+					if (!this.getEdgeTarget(e).isAltruist()) edgeCount++;
+			
 			// <num-vertices> <num-edges>
-			writer.println(this.vertexSet().size() + "," + this.edgeSet().size());
+			writer.println(this.vertexSet().size() + "," + edgeCount);
 			// <src-vert> <sink-vert> <edge-weight> <is-dummy> <failure-prob> 
 
 			for(Vertex src : allVertsSorted) {

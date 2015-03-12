@@ -26,7 +26,7 @@ import edu.cmu.cs.dickerson.kpd.structure.alg.CycleMembership;
 import edu.cmu.cs.dickerson.kpd.structure.alg.FailureProbabilityUtil;
 import edu.cmu.cs.dickerson.kpd.structure.generator.factories.AllMatchVertexPairFactory;
 
-public class FailureAwareExperimentTest {
+public class TestOfGurobiSolvers {
 
 	@Test
 	public void testCompareSolvers() {

@@ -39,8 +39,8 @@ public class FailureAwareExperiment {
 		PrintWriter writer = new PrintWriter("results/results.txt", "UTF-8");
 		
 		// Test 10 random graphs, make sure the fairness solver (with no fairness constraint) and the base solver return the same value of answer
-		for(int repeatIdx=0; repeatIdx<10; repeatIdx++) {
-			Pool pool = new SaidmanPoolGenerator(new Random()).generate(numPairs, numAlts);
+		for(int repeatIdx=0; repeatIdx<2; repeatIdx++) {
+			Pool pool = new SaidmanPoolGenerator(new Random(repeatIdx)).generate(numPairs, numAlts);
 
 			FailureProbabilityUtil.ProbabilityDistribution failDist = FailureProbabilityUtil.ProbabilityDistribution.CONSTANT;
 			FailureProbabilityUtil.setFailureProbability(pool, failDist, new Random(1), 0.7);			
