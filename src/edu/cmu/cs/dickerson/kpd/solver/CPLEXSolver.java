@@ -48,7 +48,7 @@ public abstract class CPLEXSolver extends Solver {
 			Solution sol = new Solution();
 
 			// The objective value is the Dodgson score for a*
-			double objectiveValue = 1.0; // cplex.getObjValue();
+			double objectiveValue = cplex.getObjValue();
 			sol.setObjectiveValue(objectiveValue);
 
 			// Elapsed solve time (just solve time, not IP write time)

@@ -168,7 +168,7 @@ public class RematchCPLEXSolver extends CPLEXSolver {
 						}
 						
 						// Update CPLEX's objective function to point to these new weights
-						//cplex.getObjective().setExpr(cplex.scalProd(weights, x));
+						cplex.getObjective().setExpr(cplex.scalProd(weights, x));
 					}
 					// DO NOT BREAK; want to fall through into REMOVE_MATCHED_CYCLES to constrain out cycles in this matching
 				case REMOVE_MATCHED_CYCLES:
