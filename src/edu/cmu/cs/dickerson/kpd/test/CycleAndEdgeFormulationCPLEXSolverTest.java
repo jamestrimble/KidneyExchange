@@ -1,4 +1,4 @@
-package edu.cmu.cs.dickerson.kpd.james;
+package edu.cmu.cs.dickerson.kpd.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -19,7 +19,7 @@ import edu.cmu.cs.dickerson.kpd.structure.alg.CycleMembership;
 import edu.cmu.cs.dickerson.kpd.structure.alg.FailureProbabilityUtil;
 import edu.cmu.cs.dickerson.kpd.structure.generator.SaidmanPoolGenerator;
 
-public class FailureAwareExperiment {
+public class CycleAndEdgeFormulationCPLEXSolverTest {
 
 	@Test
 	public void testNewSolver() {
@@ -35,8 +35,6 @@ public class FailureAwareExperiment {
 
 			FailureProbabilityUtil.ProbabilityDistribution failDist = FailureProbabilityUtil.ProbabilityDistribution.CONSTANT;
 			FailureProbabilityUtil.setFailureProbability(pool, failDist, new Random(1), 0.7);			
-			
-			pool.writeToWmdFile("instances/instance" + repeatIdx);
 			
 			CycleGenerator cg = new CycleGenerator(pool);
 			List<Cycle> cycles = cg.generateCyclesAndChains(3, MAX_CHAIN, true, false, 1);
